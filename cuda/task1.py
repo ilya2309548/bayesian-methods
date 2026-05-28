@@ -88,21 +88,6 @@ def train():
         # Сохраняем число, а не тензор с графом — иначе будет утечка памяти.
         losses_history.append(loss.item())
         print(f"Batch {batch_idx} loss: {losses_history[-1]:.4f}")
-
-        # Было:
-        # time_start = time.time()
-        # output = model(data)
-        # loss = criterion(output, target)
-        # time_end = time.time()
-        # forward_times.append(time_end - time_start)
-        # ...
-        # time_start_bwd = time.time()
-        # loss.backward()
-        # time_end_bwd = time.time()
-        # backward_times.append(time_end_bwd - time_start_bwd)
-        # ...
-        # losses_history.append(loss)
-        # torch.cuda.empty_cache()
         # Ошибки:
         # 1) CPU-таймеры без синхронизации → неверные метрики (GPU работает асинхронно).
         # 2) losses_history.append(loss) держит граф → утечка памяти.
